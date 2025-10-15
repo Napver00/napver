@@ -1,12 +1,4 @@
-/*
-Skin Name: Nivo Slider Default Theme
-Skin URI: http://nivo.dev7studios.com
-Description: The default skin for the Nivo Slider.
-Version: 1.3
-Author: Gilbert Pellegrom
-Author URI: http://dev7studios.com
-Supports Thumbs: true
-*/
+
 
 
 .slider-area {
@@ -70,15 +62,15 @@ Supports Thumbs: true
 
 .layer-1-3 a.ready-btn:hover {
   color: #fff;
-  background: #3EC1D5;
-  border: 1px solid #3EC1D5;
+  background: #000000;
+  border: 1px solid #000000;
   text-decoration: none;
 }
 
 .ready-btn.right-btn {
   margin-right: 15px;
-  background: #3EC1D5;
-  border: 1px solid #3EC1D5 !important;
+  background: #000000;
+  border: 1px solid #000000 !important;
 }
 
 .ready-btn.right-btn:hover {
@@ -115,7 +107,7 @@ Supports Thumbs: true
 
 .nivo-controlNav a:hover, .nivo-controlNav a.active {
   background: #fff none repeat scroll 0 0;
-  border-color: #3EC1D5;
+  border-color: #000000;
   -moz-transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
   -o-transform: rotate(180deg);
@@ -370,9 +362,9 @@ preview-2
 }
 
 .preview-2 .nivo-directionNav a.nivo-nextNav:hover:before, .preview-2 .nivo-directionNav a.nivo-prevNav:hover:before {
-  border-color: #3EC1D5;
+  border-color: #000000;
   color: #fff;
-  background: #3EC1D5;
+  background: #000000;
 }
 
 .preview-2 .nivo-directionNav a.nivo-nextNav::before {
