@@ -2,95 +2,89 @@
   "use strict";
 
   /*--------------------------
-  preloader
-  ---------------------------- */
+    Preloader
+  ---------------------------*/
   $(window).on('load', function () {
     var pre_loader = $('#preloader');
-    pre_loader.fadeOut('slow', function () {
-      $(this).remove();
+    pre_loader.fadeOut('slow', function () { $(this).remove(); });
+
+    // Start Nivo after images load to avoid flashes
+    $('#ensign-nivoslider').nivoSlider({
+      effect: 'random',
+      slices: 15,
+      boxCols: 12,
+      boxRows: 8,
+      animSpeed: 500,
+      pauseTime: 5000,
+      startSlide: 0,
+      directionNav: true,
+      controlNavThumbs: false,
+      pauseOnHover: true,
+      manualAdvance: false
     });
   });
 
   /*---------------------
-   TOP Menu Stick
-  --------------------- */
+    Sticky Header (bug fixed)
+  ----------------------*/
   var s = $("#sticker");
-  var pos = s.position();
+  var lastKnownScroll = 0;
   $(window).on('scroll', function () {
-    var windowpos = $(window).scrollTop() > 300;
-    if (windowpos > pos.top) {
-      s.addClass("stick");
-    } else {
-      s.removeClass("stick");
-    }
+    var st = $(this).scrollTop();
+    lastKnownScroll = st;
+    if (st > 300) { s.addClass("stick"); }
+    else { s.removeClass("stick"); }
   });
 
   /*----------------------------
-   Navbar nav
-  ------------------------------ */
-  var main_menu = $(".main-menu ul.navbar-nav li ");
+    Nav active state + collapse on click
+  -----------------------------*/
+  var main_menu = $(".main-menu ul.navbar-nav li");
   main_menu.on('click', function () {
     main_menu.removeClass("active");
     $(this).addClass("active");
   });
 
-  /*----------------------------
-   wow js active
-  ------------------------------ */
-  new WOW().init();
-
   $(".navbar-collapse a:not(.dropdown-toggle)").on('click', function () {
     $(".navbar-collapse.collapse").removeClass('in');
   });
 
-  //---------------------------------------------
-  //Nivo slider
-  //---------------------------------------------
-  $('#ensign-nivoslider').nivoSlider({
-    effect: 'random',
-    slices: 15,
-    boxCols: 12,
-    boxRows: 8,
-    animSpeed: 500,
-    pauseTime: 5000,
-    startSlide: 0,
-    directionNav: true,
-    controlNavThumbs: false,
-    pauseOnHover: true,
-    manualAdvance: false,
-  });
+  /*----------------------------
+    WOW.js (reduced-motion aware)
+  -----------------------------*/
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced && typeof WOW === 'function') {
+    new WOW().init();
+  }
 
   /*----------------------------
-   Scrollspy js
-  ------------------------------ */
-  var Body = $('body');
-  Body.scrollspy({
-    target: '.navbar-collapse',
-    offset: 80
-  });
+    Scrollspy
+  -----------------------------*/
+  $('body').scrollspy({ target: '.navbar-collapse', offset: 80 });
 
-  /*---------------------
+  /*----------------------------
     Venobox
-  --------------------- */
-  var veno_box = $('.venobox');
-  veno_box.venobox();
+  -----------------------------*/
+  $('.venobox').venobox();
 
   /*----------------------------
-  Page Scroll
-  ------------------------------ */
-  var page_scroll = $('a.page-scroll');
-  page_scroll.on('click', function (event) {
+    Smooth page scroll
+  -----------------------------*/
+  $('a.page-scroll').on('click', function (event) {
     var $anchor = $(this);
-    $('html, body').stop().animate({
-      scrollTop: $($anchor.attr('href')).offset().top - 55
-    }, 1500, 'easeInOutExpo');
-    event.preventDefault();
+    var target = $($anchor.attr('href'));
+    if (target.length) {
+      $('html, body').stop().animate({
+        scrollTop: target.offset().top - 55
+      }, prefersReduced ? 0 : 800, 'easeInOutExpo');
+      event.preventDefault();
+    }
   });
 
   /*--------------------------
-    Back to top button
-  ---------------------------- */
-  $(window).scroll(function () {
+    Back to top
+  ---------------------------*/
+  $(window).on('scroll', function () {
     if ($(this).scrollTop() > 100) {
       $('.back-to-top').fadeIn('slow');
     } else {
@@ -98,24 +92,22 @@
     }
   });
 
-  $('.back-to-top').click(function () {
-    $('html, body').animate({
-      scrollTop: 0
-    }, 1500, 'easeInOutExpo');
-    return false;
+  $('.back-to-top').on('click', function (e) {
+    e.preventDefault();
+    $('html, body').animate({ scrollTop: 0 }, prefersReduced ? 0 : 800, 'easeInOutExpo');
   });
 
   /*----------------------------
-   Parallax
-  ------------------------------ */
-  var well_lax = $('.wellcome-area');
-  well_lax.parallax("50%", 0.4);
-  var well_text = $('.wellcome-text');
-  well_text.parallax("50%", 0.6);
+    Parallax (skip if reduced)
+  -----------------------------*/
+  if (!prefersReduced) {
+    $('.wellcome-area').parallax("50%", 0.4);
+    $('.wellcome-text').parallax("50%", 0.6);
+  }
 
   /*--------------------------
-   collapse
-  ---------------------------- */
+    Accordion active
+  ---------------------------*/
   var panel_test = $('.panel-heading a');
   panel_test.on('click', function () {
     panel_test.removeClass('active');
@@ -123,92 +115,59 @@
   });
 
   /*---------------------
-   Testimonial carousel
-  ---------------------*/
-  var test_carousel = $('.testimonial-carousel');
-  test_carousel.owlCarousel({
-    loop: true,
-    nav: false,
-    dots: true,
-    autoplay: true,
-    responsive: {
-      0: {
-        items: 1
-      },
-      768: {
-        items: 1
-      },
-      1000: {
-        items: 1
-      }
-    }
+    Testimonial carousel
+  ----------------------*/
+  $('.testimonial-carousel').owlCarousel({
+    loop: true, nav: false, dots: true, autoplay: true,
+    responsive: { 0:{items:1}, 768:{items:1}, 1000:{items:1} }
   });
+
   /*----------------------------
-   isotope active
-  ------------------------------ */
-  // portfolio start
+    Isotope (portfolio)
+  -----------------------------*/
   $(window).on("load", function () {
     var $container = $('.awesome-project-content');
-    $container.isotope({
-      filter: '*',
-      animationOptions: {
-        duration: 750,
-        easing: 'linear',
-        queue: false
-      }
-    });
-    var pro_menu = $('.project-menu li a');
-    pro_menu.on("click", function () {
-      var pro_menu_active = $('.project-menu li a.active');
-      pro_menu_active.removeClass('active');
-      $(this).addClass('active');
-      var selector = $(this).attr('data-filter');
+    if ($container.length) {
       $container.isotope({
-        filter: selector,
-        animationOptions: {
-          duration: 750,
-          easing: 'linear',
-          queue: false
-        }
+        filter: '*',
+        animationOptions: { duration: 750, easing: 'linear', queue: false }
       });
-      return false;
-    });
-
+      $('.project-menu li a').on("click", function () {
+        $('.project-menu li a.active').removeClass('active');
+        $(this).addClass('active');
+        var selector = $(this).attr('data-filter');
+        $container.isotope({
+          filter: selector,
+          animationOptions: { duration: 750, easing: 'linear', queue: false }
+        });
+        return false;
+      });
+    }
   });
-  //portfolio end
 
   /*---------------------
-   Circular Bars - Knob
---------------------- */
-  if (typeof ($.fn.knob) != 'undefined') {
-    var knob_tex = $('.knob');
-    knob_tex.each(function () {
-      var $this = $(this),
-        knobVal = $this.attr('data-rel');
-
-      $this.knob({
-        'draw': function () {
-          $(this.i).val(this.cv + '%')
-        }
+    Skill bars (animate once)
+  ----------------------*/
+  (function () {
+    var animated = false;
+    function animateSkills() {
+      if (animated) return;
+      document.querySelectorAll('.skill-fill').forEach(function (el) {
+        var pct = el.getAttribute('data-percent') || 0;
+        el.style.width = pct + '%';
       });
-
-      $this.appear(function () {
-        $({
-          value: 0
-        }).animate({
-          value: knobVal
-        }, {
-          duration: 2000,
-          easing: 'swing',
-          step: function () {
-            $this.val(Math.ceil(this.value)).trigger('change');
-          }
-        });
-      }, {
-        accX: 0,
-        accY: -150
-      });
-    });
-  }
+      animated = true;
+      window.removeEventListener('scroll', onScroll, { passive: true });
+    }
+    function isInView() {
+      var section = document.querySelector('.bw-skills');
+      if (!section) return false;
+      var rect = section.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.9;
+    }
+    function onScroll() { if (isInView()) animateSkills(); }
+    if (isInView()) { animateSkills(); }
+    else { window.addEventListener('scroll', onScroll, { passive: true }); }
+  })();
 
 })(jQuery);
