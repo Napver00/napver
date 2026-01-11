@@ -112,10 +112,12 @@ body {
   background: #fff none repeat scroll 0 0;
   color: #444;
   font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
+  /* Increased base size for better readability */
   text-align: left;
   overflow-x: hidden;
-  line-height: 22px;
+  line-height: 26px;
+  /* Increased line-height for breathing room */
 }
 
 /* Back to top button */
@@ -123,19 +125,28 @@ body {
   position: fixed;
   display: none;
   background: #000;
-  /* Replaced #3EC1D5 with #000 */
   color: #fff;
-  padding: 6px 12px 9px 12px;
-  font-size: 16px;
-  border-radius: 2px;
-  right: 15px;
-  bottom: 15px;
-  transition: background 0.5s;
+  padding: 10px 16px;
+  /* Larger touch target */
+  font-size: 20px;
+  border-radius: 50%;
+  /* Circular button for modern look */
+  right: 20px;
+  bottom: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Smooth pop effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.back-to-top:hover {
+  background: #333;
+  transform: translateY(-5px);
 }
 
 @media (max-width: 768px) {
   .back-to-top {
-    bottom: 15px;
+    bottom: 20px;
   }
 }
 
@@ -143,7 +154,8 @@ body {
 .section-blackwhite {
   background-color: #fff;
   color: #000;
-  padding: 80px 0;
+  padding: 100px 0;
+  /* More vertical whitespace */
 }
 
 .section-blackwhite .section-headline h2 {
@@ -162,11 +174,13 @@ body {
 .service-card {
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 40px 25px;
+  border-radius: 16px;
+  /* Softer corners */
+  padding: 40px 30px;
   margin-bottom: 30px;
-  transition: all 0.4s ease;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  /* Subtle initial depth */
   cursor: default;
 }
 
@@ -174,7 +188,9 @@ body {
   background: #000;
   color: #fff;
   transform: translateY(-10px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  /* More diffused shadow */
+  border-color: #000;
 }
 
 .service-card h4 {
